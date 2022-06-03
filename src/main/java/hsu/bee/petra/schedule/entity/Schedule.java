@@ -1,0 +1,79 @@
+package hsu.bee.petra.schedule.entity;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import hsu.bee.petra.code.entity.Status;
+import hsu.bee.petra.schedule.dto.NewScheduleDto;
+import hsu.bee.petra.time.Timestamp;
+import hsu.bee.petra.user.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class Schedule extends Timestamp {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	private String title;
+	private int adult;
+	private int child;
+	private long views;
+	private LocalDate startDate;
+	private LocalDate endDate;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
+	private User user;
+
+	@OneToOne(fetch = FetchType.LAZY)
+	private Status status;
+
+	/** 양방향 매핑 */
+	@Builder.Default
+	@OneToMany(mappedBy = "schedule")
+	private List<Plan> planList = new ArrayList<>();
+
+	@Builder.Default
+	@OneToMany(mappedBy = "id.scheduleId")
+	private List<FoodType> foodTypeList = new ArrayList<>();
+
+	@Builder.Default
+	@OneToMany(mappedBy = "id.scheduleId")
+	private List<TravelType> travelTypeList = new ArrayList<>();
+
+	/** 생성자 */
+	public Schedule(NewScheduleDto newScheduleDto, User user, Status status) {
+		this.title = newScheduleDto.getTitle();
+		this.adult = newScheduleDto.getAdult();
+		this.child = newScheduleDto.getChild();
+		this.startDate = LocalDate.parse(newScheduleDto.getStartDate(), DateTimeFormatter.ISO_LOCAL_DATE);
+		this.endDate = LocalDate.parse(newScheduleDto.getEndDate(), DateTimeFormatter.ISO_LOCAL_DATE);
+		this.user = user;
+		this.status = status;
+		this.planList = new ArrayList<>();
+		this.foodTypeList = new ArrayList<>();
+		this.travelTypeList = new ArrayList<>();
+	}
+}
