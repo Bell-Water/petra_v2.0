@@ -32,7 +32,8 @@ public class WebConfiguration implements WebMvcConfigurer {
 				.excludePathPatterns("/attraction/**")
 			.excludePathPatterns("/api/**")
 			.excludePathPatterns("/login")
-			.excludePathPatterns("/schedule/");
+			.excludePathPatterns("/schedule/")
+				.excludePathPatterns("/attraction/**");
 	}
 
 	@Override
