@@ -49,8 +49,13 @@ public class AttractionService {
 
         List<Attraction> attractions = attractionRepository.findByAddressIdIn(new ArrayList<Long>(addressDtos.keySet()));
 
+        // contentTypeId가 15인 theme.id는 76~90
         for(Attraction a : attractions) {
-            addressDtos.get(a.getAddress().getId()).setName(a.getName());
+            if(a.getTheme().getId() >= 76 && a.getTheme().getId() <= 90) {
+                addressDtos.remove(a.getAddress().getId());
+            } else {
+                addressDtos.get(a.getAddress().getId()).setName(a.getName());
+            }
         }
 
         return new ArrayList<AddressDto>(addressDtos.values());
