@@ -40,5 +40,4 @@ public class Address extends Timestamp {
 	@OneToMany(mappedBy = "address")
 	private List<Attraction> attractionList = new ArrayList<>();
 
-
 }
