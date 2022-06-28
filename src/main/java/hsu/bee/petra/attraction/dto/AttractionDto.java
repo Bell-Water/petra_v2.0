@@ -16,12 +16,12 @@ import lombok.Setter;
 public class AttractionDto {
 	private long id;
 	private String name;
+	private String imageUrl;
 	private String address;
 	private String detail;
 	private String area;
 	private String sigungu;
 	private String category;
-	private String imageUrl;
 
 	public static AttractionDto convertAttractionDto(Attraction attraction) {
 		return AttractionDto
