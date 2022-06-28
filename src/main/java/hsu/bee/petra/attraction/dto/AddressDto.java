@@ -1,6 +1,7 @@
 package hsu.bee.petra.attraction.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 import hsu.bee.petra.attraction.entity.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AddressDto {
 
@@ -20,6 +22,7 @@ public class AddressDto {
     private String address;
     private String detail;
     private String zipcode;
+    private Double distance;
 
     public static AddressDto convertAddressDto(Address address) {
         return AddressDto.builder()
